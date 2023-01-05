@@ -29,12 +29,3 @@ HANDS = {"High Card": 0,
          "Straight Flush": 8,
          "Royal Flush": 9}
 
-class Deck():
-    def __init__(self):
-        
-        deck = []
-        for _ in range(52):
-            card = (random.choice(list(CARD_RANK.keys()))), random.choice(list(SUITS))
-            deck.append(card)
-            
-        self.__deck__ = deck
