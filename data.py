@@ -1,6 +1,4 @@
-import random
-
-CARD_RANK = {
+CARDS = {
     "A": 14,
     "K": 13,
     "Q": 12,
@@ -18,14 +16,13 @@ CARD_RANK = {
 
 SUITS = {"S", "H", "D", "C"}
 
-HANDS = {"High Card": 0,
-         "Pair": 1,
-         "Two Pair": 2,
-         "Three of a Kind": 3,
-         "Straight": 4,
-         "Flush": 5,
-         "Full House": 6,
-         "Four of a Kind": 7,
-         "Straight Flush": 8,
-         "Royal Flush": 9}
-
+HANDS = {"Royal Flush": 10,
+        "Straight Flush": 9,
+        "Four of a Kind": 8,
+        "Full House": 7,
+        "Flush": 6,
+        "Straight": 5,
+        "Three of a Kind": 4,
+        "Two Pair": 3,
+        "Pair": 2,
+        "High Card": 1}
