@@ -4,33 +4,6 @@ from collections import Counter
 from data import *
 
 
-def main():
-    
-    deck = Deck()
-    
-    deck.shuffle()
-    deck.deal(3)
-    
-    print()
-    
-    print(f"Player 1's hand: {deck.current_hands[0]}")
-    print(f"Player 2's hand: {deck.current_hands[1]}")
-    print(f"Player 3's hand: {deck.current_hands[2]}")
-    
-    print()
-    
-    deck.flop()
-    deck.turn()
-    deck.river()
-    deck.poker_hand()
-    
-    print(f"The shared cards are {deck.shared_cards} and the deck has {deck.size()} cards left")
-    
-    print()
-    
-    deck.judge()
-    print(f"Winning player is {deck.winning_player} with rank {deck.winning_rank}\n\nCards: {deck.winning_hand}\n")
-    
 class Deck():
     def __init__(self):
         
@@ -164,18 +137,15 @@ class Deck():
             if rank > highest:
                 highest = rank
                 
-        ties = list(filter(lambda x: HANDS[x[1]]==highest, self.player_data))
+        self.ties = list(filter(lambda x: HANDS[x[1]]==highest, self.player_data))
         
-        
-        
-        if len(ties) > 1:
-            print(ties)
+        if len(self.ties) > 1:
             tie_data = []
-            for index, tie in enumerate(ties):
+            for index, tie in enumerate(self.ties):
                 if tie[1] == "Flush":
                     suit_count = Counter([card[1] for card in tie[0]])
                     suit = {k for (k, v) in suit_count.items() if v > 4}
-                    suit = list(suit.keys())[0]
+                    suit = list(suit)[0]
                     x_sum = sum(CARDS[item[0]] for item in tie if item[1] == suit)
                     tie_data.append((index, x_sum))
                 elif tie[1] == "Two Pair":
@@ -198,22 +168,17 @@ class Deck():
                     pairs = {k for (k, v) in card_count.items() if v == 2 or v==3}
                     x_sum = [CARDS[x] for x in pairs]
                     tie_data.append((index, max(x_sum)))
+                else:
+                    x_sum = [CARDS[x] for x in tie[0]]
+                    tie_data.append((index, sum(x_sum)))
             
             winner = max(tie_data, key=lambda x: x[1])
-            winner = self.player_data.index(ties[winner[0]])
+            winner = self.player_data.index(self.ties[winner[0]])
         else:     
 
             winner = max(self.player_data, key=lambda x: HANDS[x[1]])
             winner = self.player_data.index(winner)
-            print(winner)
-    
-        
+
         self.winning_player = winner + 1
         self.winning_hand = self.player_data[winner][0]
         self.winning_rank = self.player_data[winner][1]
-    
-            
-if __name__ == "__main__":
-    main()
-    
-    

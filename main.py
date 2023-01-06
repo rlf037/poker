@@ -80,7 +80,7 @@ def main():
         
     if "result" in st.session_state:
         st.subheader("Results:")
-        st.write(f"Winning player is {st.session_state.deck.winning_player} with rank {st.session_state.deck.winning_rank}")
+        st.write(f"Winning player is {st.session_state.deck.winning_player} with rank {st.session_state.deck.winning_rank} {'[tiebreaker]' if len(st.session_state.deck.ties) > 1 else ''}")
                 
                 
 if __name__ == "__main__":
