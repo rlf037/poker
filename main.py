@@ -47,7 +47,7 @@ def main():
             st.session_state.result = True
             
         st.session_state.sims = st.slider("Number of Sims", 1, 100, 10)
-        st.session_state.interval = st.slider("Delay", min_value=0.5, max_value=10., value=0.5, step=0.1)
+        st.session_state.interval = st.slider("Delay", min_value=0.1, max_value=10., value=0.5, step=0.1)
     
         if st.button("Run Simulations"):
             
