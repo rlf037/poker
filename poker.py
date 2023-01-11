@@ -1,8 +1,36 @@
 import random
 from collections import Counter
 
-from data import *
+CARDS = {
+    "A": 14,
+    "K": 13,
+    "Q": 12,
+    "J": 11,
+    "10": 10,
+    "9": 9,
+    "8": 8,
+    "7": 7,
+    "6": 6,
+    "5": 5,
+    "4": 4,
+    "3": 3,
+    "2": 2
+}
 
+SDRAC = {v: k for k, v in CARDS.items()}
+
+SUITS = {"S", "H", "D", "C"}
+
+HANDS = {"Royal Flush": 10,
+        "Straight Flush": 9,
+        "Four of a Kind": 8,
+        "Full House": 7,
+        "Flush": 6,
+        "Straight": 5,
+        "Three of a Kind": 4,
+        "Two Pair": 3,
+        "Pair": 2,
+        "High Card": 1}
 
 class Deck():
     def __init__(self):
@@ -23,7 +51,7 @@ class Deck():
         self.winning_hand = None
         
     @staticmethod
-    def is_straight(cards):
+    def is_straight(cards) -> bool:
 
         count = 0
         
@@ -37,7 +65,7 @@ class Deck():
                 if count == 5:
                     break
                 count = 0
-        
+
         return count > 4
       
     def shuffle(self):
@@ -47,6 +75,7 @@ class Deck():
     def deal(self, players: int):
         
         self.current_players = players
+        self.current_hands = []
         
         for _ in range(self.current_players):
             
@@ -139,7 +168,14 @@ class Deck():
                 
         self.ties = list(filter(lambda x: HANDS[x[1]]==highest, self.player_data))
         
+        
+        self.tiebreak = dict()
         if len(self.ties) > 1:
+            indices = [self.player_data.index(x) for x in self.ties]
+            # print(self.player_data)
+            # print(self.ties)
+            # print(indices)
+        
             tie_data = []
             for index, tie in enumerate(self.ties):
                 if tie[1] == "Flush":
@@ -171,11 +207,12 @@ class Deck():
                 else:
                     x_sum = [CARDS[x] for x in tie[0]]
                     tie_data.append((index, sum(x_sum)))
-            
+                    
+                self.tiebreak[indices[index]] = x_sum
+                
             winner = max(tie_data, key=lambda x: x[1])
             winner = self.player_data.index(self.ties[winner[0]])
         else:     
-
             winner = max(self.player_data, key=lambda x: HANDS[x[1]])
             winner = self.player_data.index(winner)
 
